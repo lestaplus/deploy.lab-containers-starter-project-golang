@@ -10,6 +10,8 @@ FROM scratch
 
 COPY --from=builder /app/server /server
 
+COPY --from=builder /app/templates /templates
+
 EXPOSE 8080
 
-CMD ["./server"]
+CMD ["./server", "serve"]
