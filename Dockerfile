@@ -1,10 +1,14 @@
-FROM golang:1.22-bookworm
+FROM golang:1.22-bookworm AS builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN go build -o server .
+RUN CGO_ENABLED=0 GOOS=linux go build -o server .
+
+FROM scratch
+
+COPY --from=builder /app/server /server
 
 EXPOSE 8080
 
